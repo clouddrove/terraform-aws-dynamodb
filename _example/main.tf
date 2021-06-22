@@ -58,7 +58,7 @@ module "dynamodb_table" {
   dynamodb_indexes  = ["DailyAverageIndex"]
 
   # enable replica and streams
-  enable_streams    = true
-  stream_view_type  = "KEYS_ONLY"
-  replicas          = ["us-east-2", "us-west-2"]
+  enable_streams   = true
+  stream_view_type = "KEYS_ONLY"
+  replicas         = ["us-east-2", "us-west-2"]
 }
