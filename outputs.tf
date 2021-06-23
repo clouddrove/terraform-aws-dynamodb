@@ -33,7 +33,6 @@ output "table_stream_label" {
   description = "DynamoDB table stream label"
 }
 
-
 output "tags" {
   value       = module.labels.tags
   description = "A mapping of tags to assign to the resource."
