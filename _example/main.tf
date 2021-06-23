@@ -2,10 +2,10 @@ provider "aws" {
   region = "us-east-1"
 }
 
-module "dynamodb_table" {
+module "dynamodb" {
   source = "../"
 
-  name        = "first"
+  name        = "dynamodb"
   environment = "test"
   label_order = ["environment", "name"]
   hash_key    = "HashKey"
@@ -60,5 +60,4 @@ module "dynamodb_table" {
   # enable replica and streams
   enable_streams   = true
   stream_view_type = "KEYS_ONLY"
-  replicas         = ["us-east-2", "us-west-2"]
 }

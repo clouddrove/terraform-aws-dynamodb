@@ -32,3 +32,9 @@ output "table_stream_label" {
   value       = join("", aws_dynamodb_table.default.*.stream_label)
   description = "DynamoDB table stream label"
 }
+
+
+output "tags" {
+  value       = module.labels.tags
+  description = "A mapping of tags to assign to the resource."
+}

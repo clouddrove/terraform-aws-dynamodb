@@ -6,13 +6,13 @@
 
 
 # Name of this project
-name: Terraform AWS VPC
+name: Terraform AWS DynamoDB
 
 # License of this project
 license: "MIT"
 
 # Canonical GitHub repo
-github_repo: clouddrove/terraform-aws-vpc
+github_repo: clouddrove/terraform-aws-dynamodb
 
 # Badges to display
 badges:
@@ -25,7 +25,7 @@ badges:
 
 #  description of this project
 description: |-
-  Terraform module to create VPC resource on AWS.
+  Terraform module to create dynamodb resource on AWS.
 
 # extra content
 include:
@@ -37,12 +37,64 @@ usage: |-
   ### Simple Example
   Here is an example of how you can use this module in your inventory structure:
     ```hcl
-    module "vpc" {
-        source      = "clouddrove/vpc/aws"
-        version     = "0.15.0"
-        name        = "vpc"
-        environment = "test"
-        label_order = ["name", "environment"]
-        cidr_block  = "10.0.0.0/16"
-      }
+  module "dynamodb" {
+  source = "../"
+
+  name        = "dynamodb"
+  environment = "test"
+  label_order = ["environment", "name"]
+  hash_key    = "HashKey"
+  range_key   = "RangeKey"
+
+  dynamodb_attributes = [
+  {
+  name = "DailyAverage"
+  type = "N"
+  },
+  {
+  name = "HighWater"
+  type = "N"
+  },
+  {
+  name = "Timestamp"
+  type = "S"
+  }
+  ]
+
+  local_secondary_index_map = [
+  {
+  name               = "TimestampSortIndex"
+  range_key          = "Timestamp"
+  projection_type    = "INCLUDE"
+  non_key_attributes = ["HashKey", "RangeKey"]
+  },
+  {
+  name               = "HighWaterIndex"
+  range_key          = "Timestamp"
+  projection_type    = "INCLUDE"
+  non_key_attributes = ["HashKey", "RangeKey"]
+  }
+  ]
+
+  global_secondary_index_map = [
+  {
+  name               = "DailyAverageIndex"
+  hash_key           = "DailyAverage"
+  range_key          = "HighWater"
+  write_capacity     = 5
+  read_capacity      = 5
+  projection_type    = "INCLUDE"
+  non_key_attributes = ["HashKey", "RangeKey"]
+  }
+  ]
+
+  #autoscaler
+  enable_autoscaler = true
+  dynamodb_indexes  = ["DailyAverageIndex"]
+
+  #enable replica and streams
+  enable_streams   = true
+  stream_view_type = "KEYS_ONLY"
+  }
+
     ```

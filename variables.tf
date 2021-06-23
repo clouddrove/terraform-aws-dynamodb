@@ -218,4 +218,3 @@ variable "dynamodb_indexes" {
   default     = [""]
   description = "List of DynamoDB indexes"
 }
-

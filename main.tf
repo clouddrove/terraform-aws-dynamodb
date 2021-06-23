@@ -157,7 +157,7 @@ resource "aws_appautoscaling_target" "read_target_index" {
 
 resource "aws_appautoscaling_policy" "read_policy" {
   count       = var.enabled && var.enable_autoscaler ? 1 : 0
-  name        = format("DynamoDBReadCapacityUtilization:", join("", aws_appautoscaling_target.read_target.*.id))
+  name        = format("DynamoDBReadCapacityUtilization:%s", join("", aws_appautoscaling_target.read_target.*.id))
   policy_type = "TargetTrackingScaling"
   resource_id = join("", aws_appautoscaling_target.read_target.*.resource_id)
 
