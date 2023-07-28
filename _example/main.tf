@@ -1,7 +1,13 @@
+##---------------------------------------------------------------------------------------------------------------------------
+## Provider block added, Use the Amazon Web Services (AWS) provider to interact with the many resources supported by AWS.
+##--------------------------------------------------------------------------------------------------------------------------
 provider "aws" {
   region = "us-east-1"
 }
 
+##---------------------------------------------------------------------------------------------------------------------------
+## Amazon DynamoDB is a fully managed, serverless, key-value NoSQL database designed to run high-performance applications at any scale.
+##--------------------------------------------------------------------------------------------------------------------------
 module "dynamodb" {
   source = "../"
 

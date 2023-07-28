@@ -1,7 +1,9 @@
-#Module      : Label
-#Description : This terraform module is designed to generate consistent label names and tags
-#              for resources. You can use terraform-labels to implement a strict naming
-#              convention.
+# Managed By : CloudDrove
+# Copyright @ CloudDrove. All Right Reserved.
+
+##-----------------------------------------------------------------------------
+## Labels module callled that will be used for naming and tags.
+##-----------------------------------------------------------------------------
 module "labels" {
   source      = "clouddrove/labels/aws"
   version     = "1.3.0"
@@ -57,8 +59,9 @@ resource "null_resource" "local_secondary_index_names" {
   }
 }
 
-#Module      : DynamoDB Table
-#Description : Provides a DynamoDB table resource
+##-----------------------------------------------------------------------------
+## #Description DynamoDB Table : Provides a DynamoDB table resource
+##-----------------------------------------------------------------------------
 resource "aws_dynamodb_table" "default" {
   count            = local.enabled ? 1 : 0
   name             = module.labels.id
@@ -136,8 +139,9 @@ resource "aws_dynamodb_table" "default" {
   tags = module.labels.tags
 }
 
-#Module      : DynamoDB autoscaler
-#Description : Provides an Application AutoScaling ScalableTarget resource.
+##-----------------------------------------------------------------------------
+## Description DynamoDB autoscaler : Provides an Application AutoScaling ScalableTarget resource.
+##-----------------------------------------------------------------------------
 resource "aws_appautoscaling_target" "read_target" {
   count              = var.enabled && var.enable_autoscaler ? 1 : 0
   max_capacity       = var.autoscale_max_read_capacity
@@ -147,8 +151,9 @@ resource "aws_appautoscaling_target" "read_target" {
   service_namespace  = "dynamodb"
 }
 
-#Module      : DynamoDB autoscaler
-#Description : Provides an Application AutoScaling ScalableTarget resource.
+##-----------------------------------------------------------------------------
+## Description DynamoDB autoscaler : Provides an Application AutoScaling ScalableTarget resource.
+##-----------------------------------------------------------------------------
 resource "aws_appautoscaling_target" "read_target_index" {
   for_each           = var.enabled && var.enable_autoscaler ? toset(var.dynamodb_indexes) : toset([])
   max_capacity       = var.autoscale_max_read_capacity
@@ -158,8 +163,9 @@ resource "aws_appautoscaling_target" "read_target_index" {
   service_namespace  = "dynamodb"
 }
 
-#Module      : DynamoDB autoscaler Policy
-#Description : Provides an Application AutoScaling Policy resource.
+##-----------------------------------------------------------------------------
+## Description DynamoDB autoscaler Policy : Provides an Application AutoScaling Policy resource.
+##-----------------------------------------------------------------------------
 resource "aws_appautoscaling_policy" "read_policy" {
   count       = var.enabled && var.enable_autoscaler ? 1 : 0
   name        = format("DynamoDBReadCapacityUtilization:%s", join("", aws_appautoscaling_target.read_target.*.id))
@@ -177,8 +183,10 @@ resource "aws_appautoscaling_policy" "read_policy" {
     target_value = var.autoscale_read_target
   }
 }
-#Module      : DynamoDB autoscaler Policy
-#Description : Provides an Application AutoScaling Policy resource.
+
+##-----------------------------------------------------------------------------
+## Description DynamoDB autoscaler Policy : Provides an Application AutoScaling Policy resource.
+##-----------------------------------------------------------------------------
 resource "aws_appautoscaling_policy" "read_policy_index" {
   for_each = var.enabled && var.enable_autoscaler ? toset(var.dynamodb_indexes) : toset([])
 
@@ -198,8 +206,9 @@ resource "aws_appautoscaling_policy" "read_policy_index" {
   }
 }
 
-#Module      : DynamoDB autoscaler
-#Description : Provides an Application AutoScaling ScalableTarget resource.
+##-----------------------------------------------------------------------------
+## Description DynamoDB autoscaler : Provides an Application AutoScaling ScalableTarget resource.
+##-----------------------------------------------------------------------------
 resource "aws_appautoscaling_target" "write_target" {
   count              = var.enabled && var.enable_autoscaler ? 1 : 0
   max_capacity       = var.autoscale_max_write_capacity
@@ -209,8 +218,9 @@ resource "aws_appautoscaling_target" "write_target" {
   service_namespace  = "dynamodb"
 }
 
-#Module      : DynamoDB autoscaler
-#Description : Provides an Application AutoScaling ScalableTarget resource.
+##-----------------------------------------------------------------------------
+## Description DynamoDB autoscaler : Provides an Application AutoScaling ScalableTarget resource.
+##-----------------------------------------------------------------------------
 resource "aws_appautoscaling_target" "write_target_index" {
   for_each           = var.enabled && var.enable_autoscaler ? toset(var.dynamodb_indexes) : toset([])
   max_capacity       = var.autoscale_max_write_capacity
@@ -219,8 +229,10 @@ resource "aws_appautoscaling_target" "write_target_index" {
   scalable_dimension = "dynamodb:index:WriteCapacityUnits"
   service_namespace  = "dynamodb"
 }
-#Module      : DynamoDB autoscaler Policy
-#Description : Provides an Application AutoScaling Policy resource.
+
+##-----------------------------------------------------------------------------
+## Description DynamoDB autoscaler Policy : Provides an Application AutoScaling Policy resource.
+##-----------------------------------------------------------------------------
 resource "aws_appautoscaling_policy" "write_policy" {
   count       = var.enabled && var.enable_autoscaler ? 1 : 0
   name        = format("DynamoDBWriteCapacityUtilization:%s", join("", aws_appautoscaling_target.write_target.*.id))
@@ -239,8 +251,9 @@ resource "aws_appautoscaling_policy" "write_policy" {
   }
 }
 
-#Module      : DynamoDB autoscaler Policy
-#Description : Provides an Application AutoScaling Policy resource.
+##-----------------------------------------------------------------------------
+## Description DynamoDB autoscaler Policy : Provides an Application AutoScaling Policy resource.
+##-----------------------------------------------------------------------------
 resource "aws_appautoscaling_policy" "write_policy_index" {
   for_each = var.enabled && var.enable_autoscaler ? toset(var.dynamodb_indexes) : toset([])
 
