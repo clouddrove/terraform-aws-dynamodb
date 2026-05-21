@@ -10,6 +10,7 @@ module "labels" {
   environment = var.environment
   managedby   = var.managedby
   label_order = var.label_order
+  extra_tags  = var.tags
 }
 
 locals {
@@ -63,8 +64,8 @@ resource "aws_dynamodb_table" "default" {
   count            = local.enabled ? 1 : 0
   name             = module.labels.id
   billing_mode     = var.billing_mode
-  read_capacity    = var.autoscale_min_read_capacity
-  write_capacity   = var.autoscale_min_write_capacity
+  read_capacity    = var.billing_mode == "PROVISIONED" ? var.autoscale_min_read_capacity : null
+  write_capacity   = var.billing_mode == "PROVISIONED" ? var.autoscale_min_write_capacity : null
   hash_key         = var.hash_key
   range_key        = var.range_key
   stream_enabled   = length(var.replicas) > 0 ? true : var.enable_streams
