@@ -143,7 +143,7 @@ resource "aws_appautoscaling_target" "read_target" {
   count              = var.enabled && var.enable_autoscaler ? 1 : 0
   max_capacity       = var.autoscale_max_read_capacity
   min_capacity       = var.autoscale_min_read_capacity
-  resource_id        = format("table/%s", join("", aws_dynamodb_table.default.*.name))
+  resource_id        = format("table/%s", join("", aws_dynamodb_table.default[*].name))
   scalable_dimension = "dynamodb:table:ReadCapacityUnits"
   service_namespace  = "dynamodb"
 }
@@ -154,7 +154,7 @@ resource "aws_appautoscaling_target" "read_target_index" {
   for_each           = var.enabled && var.enable_autoscaler ? toset(var.dynamodb_indexes) : toset([])
   max_capacity       = var.autoscale_max_read_capacity
   min_capacity       = var.autoscale_min_read_capacity
-  resource_id        = format("table/%s/index/%s", join("", aws_dynamodb_table.default.*.name), each.key)
+  resource_id        = format("table/%s/index/%s", join("", aws_dynamodb_table.default[*].name), each.key)
   scalable_dimension = "dynamodb:index:ReadCapacityUnits"
   service_namespace  = "dynamodb"
 }
@@ -163,12 +163,12 @@ resource "aws_appautoscaling_target" "read_target_index" {
 #Description : Provides an Application AutoScaling Policy resource.
 resource "aws_appautoscaling_policy" "read_policy" {
   count       = var.enabled && var.enable_autoscaler ? 1 : 0
-  name        = format("DynamoDBReadCapacityUtilization:%s", join("", aws_appautoscaling_target.read_target.*.id))
+  name        = format("DynamoDBReadCapacityUtilization:%s", join("", aws_appautoscaling_target.read_target[*].id))
   policy_type = "TargetTrackingScaling"
-  resource_id = join("", aws_appautoscaling_target.read_target.*.resource_id)
+  resource_id = join("", aws_appautoscaling_target.read_target[*].resource_id)
 
-  scalable_dimension = join("", aws_appautoscaling_target.read_target.*.scalable_dimension)
-  service_namespace  = join("", aws_appautoscaling_target.read_target.*.service_namespace)
+  scalable_dimension = join("", aws_appautoscaling_target.read_target[*].scalable_dimension)
+  service_namespace  = join("", aws_appautoscaling_target.read_target[*].service_namespace)
 
   target_tracking_scaling_policy_configuration {
     predefined_metric_specification {
@@ -205,7 +205,7 @@ resource "aws_appautoscaling_target" "write_target" {
   count              = var.enabled && var.enable_autoscaler ? 1 : 0
   max_capacity       = var.autoscale_max_write_capacity
   min_capacity       = var.autoscale_min_write_capacity
-  resource_id        = format("table/%s", join("", aws_dynamodb_table.default.*.name))
+  resource_id        = format("table/%s", join("", aws_dynamodb_table.default[*].name))
   scalable_dimension = "dynamodb:table:WriteCapacityUnits"
   service_namespace  = "dynamodb"
 }
@@ -216,7 +216,7 @@ resource "aws_appautoscaling_target" "write_target_index" {
   for_each           = var.enabled && var.enable_autoscaler ? toset(var.dynamodb_indexes) : toset([])
   max_capacity       = var.autoscale_max_write_capacity
   min_capacity       = var.autoscale_min_write_capacity
-  resource_id        = format("table/%s/index/%s", join("", aws_dynamodb_table.default.*.name), each.key)
+  resource_id        = format("table/%s/index/%s", join("", aws_dynamodb_table.default[*].name), each.key)
   scalable_dimension = "dynamodb:index:WriteCapacityUnits"
   service_namespace  = "dynamodb"
 }
@@ -224,12 +224,12 @@ resource "aws_appautoscaling_target" "write_target_index" {
 #Description : Provides an Application AutoScaling Policy resource.
 resource "aws_appautoscaling_policy" "write_policy" {
   count       = var.enabled && var.enable_autoscaler ? 1 : 0
-  name        = format("DynamoDBWriteCapacityUtilization:%s", join("", aws_appautoscaling_target.write_target.*.id))
+  name        = format("DynamoDBWriteCapacityUtilization:%s", join("", aws_appautoscaling_target.write_target[*].id))
   policy_type = "TargetTrackingScaling"
-  resource_id = join("", aws_appautoscaling_target.write_target.*.resource_id)
+  resource_id = join("", aws_appautoscaling_target.write_target[*].resource_id)
 
-  scalable_dimension = join("", aws_appautoscaling_target.write_target.*.scalable_dimension)
-  service_namespace  = join("", aws_appautoscaling_target.write_target.*.service_namespace)
+  scalable_dimension = join("", aws_appautoscaling_target.write_target[*].scalable_dimension)
+  service_namespace  = join("", aws_appautoscaling_target.write_target[*].service_namespace)
 
   target_tracking_scaling_policy_configuration {
     predefined_metric_specification {
