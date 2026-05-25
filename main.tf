@@ -34,7 +34,7 @@ locals {
   # Remove the first map from the list if no `range_key` is provided
   from_index = length(var.range_key) > 0 ? 0 : 1
 
-  attributes_final = slice(local.attributes, local.from_index, length(local.attributes))
+  attributes_final      = slice(local.attributes, local.from_index, length(local.attributes))
   autoscaler_attributes = var.autoscaler_attributes
   autoscaler_tags       = var.autoscaler_tags
 }
