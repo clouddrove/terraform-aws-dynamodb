@@ -35,8 +35,6 @@ locals {
   from_index = length(var.range_key) > 0 ? 0 : 1
 
   attributes_final      = slice(local.attributes, local.from_index, length(local.attributes))
-  autoscaler_attributes = var.autoscaler_attributes
-  autoscaler_tags       = var.autoscaler_tags
 }
 
 resource "null_resource" "global_secondary_index_names" {
