@@ -1,7 +1,13 @@
----
 name: Auto merge
+
 on:
   pull_request:
+
+permissions:
+  contents: write
+  checks: read
+  pull-requests: write
+
 jobs:
   auto-merge:
     uses: clouddrove/github-shared-workflows/.github/workflows/pr-auto-merge.yml@master
