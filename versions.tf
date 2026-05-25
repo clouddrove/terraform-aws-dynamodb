@@ -8,15 +8,15 @@ terraform {
       version = ">= 5.80.0"
     }
 
-  }
-
-  provider_meta "aws" {
-    user_agent = ["github.com/clouddrove/terraform-aws-dynamodb"]
-
     null = {
       source  = "hashicorp/null"
       version = ">= 3.2.0"
     }
+
+  }
+
+  provider_meta "aws" {
+    user_agent = ["github.com/clouddrove/terraform-aws-dynamodb"]
   }
 
 
