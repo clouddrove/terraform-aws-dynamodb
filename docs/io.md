@@ -9,8 +9,6 @@
 | autoscale\_min\_write\_capacity | DynamoDB autoscaling min write capacity | `number` | `5` | no |
 | autoscale\_read\_target | The target value (in %) for DynamoDB read autoscaling | `number` | `50` | no |
 | autoscale\_write\_target | The target value (in %) for DynamoDB write autoscaling | `number` | `50` | no |
-| autoscaler\_attributes | Additional attributes for the autoscaler module | `list(string)` | `[]` | no |
-| autoscaler\_tags | Additional resource tags for the autoscaler module | `map(string)` | `{}` | no |
 | billing\_mode | DynamoDB Billing mode. Can be PROVISIONED or PAY\_PER\_REQUEST | `string` | `"PROVISIONED"` | no |
 | dynamodb\_attributes | Additional DynamoDB attributes in the form of a list of mapped values | <pre>list(object({<br>    name = string<br>    type = string<br>  }))</pre> | `[]` | no |
 | dynamodb\_indexes | List of DynamoDB indexes | `list(string)` | <pre>[<br>  ""<br>]</pre> | no |
@@ -27,7 +25,7 @@
 | local\_secondary\_index\_map | Additional local secondary indexes in the form of a list of mapped values | <pre>list(object({<br>    name               = string<br>    non_key_attributes = list(string)<br>    projection_type    = string<br>    range_key          = string<br>  }))</pre> | `[]` | no |
 | managedby | ManagedBy, eg 'CloudDrove' | `string` | `"hello@clouddrove.com"` | no |
 | name | Name  (e.g. `app` or `cluster`). | `string` | `""` | no |
-| range\_key | DynamoDB table Range Key | `string` | `""` | no |
+| range\_key | DynamoDB table Range Key | `string` | `"null"` | no |
 | range\_key\_type | Range Key type, which must be a scalar type: `S`, `N`, or `B` for (S)tring, (N)umber or (B)inary data | `string` | `"S"` | no |
 | replicas | List of regions to create replica | `list(string)` | `[]` | no |
 | repository | Terraform current module repo | `string` | `"https://github.com/clouddrove/terraform-aws-dynamodb"` | no |
