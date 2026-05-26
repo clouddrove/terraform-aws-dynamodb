@@ -49,3 +49,4 @@
 | table\_stream\_arn | DynamoDB table stream ARN |
 | table\_stream\_label | DynamoDB table stream label |
 | tags | A mapping of tags to assign to the resource. |
+
