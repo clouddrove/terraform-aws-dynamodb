@@ -133,7 +133,7 @@ variable "hash_key_type" {
 
 variable "range_key" {
   type        = string
-  default     = ""
+  default     = "null"
   description = "DynamoDB table Range Key"
 }
 
@@ -159,18 +159,6 @@ variable "enable_autoscaler" {
   type        = bool
   default     = false
   description = "Flag to enable/disable DynamoDB autoscaling"
-}
-
-variable "autoscaler_attributes" {
-  type        = list(string)
-  default     = []
-  description = "Additional attributes for the autoscaler module"
-}
-
-variable "autoscaler_tags" {
-  type        = map(string)
-  default     = {}
-  description = "Additional resource tags for the autoscaler module"
 }
 
 variable "dynamodb_attributes" {
