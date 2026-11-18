@@ -10,6 +10,7 @@
 | autoscale\_read\_target | The target value (in %) for DynamoDB read autoscaling | `number` | `50` | no |
 | autoscale\_write\_target | The target value (in %) for DynamoDB write autoscaling | `number` | `50` | no |
 | billing\_mode | DynamoDB Billing mode. Can be PROVISIONED or PAY\_PER\_REQUEST | `string` | `"PROVISIONED"` | no |
+| deletion\_protection\_enabled | Enable deletion protection on the table. While true, the table cannot be deleted until this is set back to false. | `bool` | `false` | no |
 | dynamodb\_attributes | Additional DynamoDB attributes in the form of a list of mapped values | <pre>list(object({<br>    name = string<br>    type = string<br>  }))</pre> | `[]` | no |
 | dynamodb\_indexes | List of DynamoDB indexes | `list(string)` | <pre>[<br>  ""<br>]</pre> | no |
 | enable\_autoscaler | Flag to enable/disable DynamoDB autoscaling | `bool` | `false` | no |
