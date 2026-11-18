@@ -120,6 +120,12 @@ variable "enable_point_in_time_recovery" {
   description = "Enable DynamoDB point in time recovery"
 }
 
+variable "deletion_protection_enabled" {
+  type        = bool
+  default     = false
+  description = "Enable deletion protection on the table. While true, the table cannot be deleted until this is set back to false."
+}
+
 variable "hash_key" {
   type        = string
   description = "DynamoDB table Hash Key"
